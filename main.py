@@ -1,6 +1,8 @@
 import cv2
 import pathlib
 
+"""
+# OLD CODE FOR PNG
 # Load the overlay image (PNG)
 # overlay_img = cv2.imread('overlay.png', cv2.IMREAD_UNCHANGED)  # Ensure the image has an alpha channel
 
@@ -11,7 +13,7 @@ import pathlib
 
 #     for c in range(0, 3):
 #         img[y:y+h, x:x+w, c] = img[y:y+h, x:x+w, c] * (1 - alpha_mask[:, :, c] / 255.0) + overlay[:, :, c] * (alpha_mask[:, :, c] / 255.0)
-
+"""
 
 # Load the overlay image (JPG format, without alpha channel)
 overlay_img = cv2.imread('overlay.jpg')  # Ensure the image is in JPG format
@@ -89,13 +91,16 @@ while True:
         resized_overlay = cv2.resize(overlay_img, (width, height))
         overlay_image(frame, resized_overlay, (x, y))
 
-
+    """
+    # OLD CODE FOR RECTANGLE
     # for (x,y,width,height) in faces:
     #     #draws a recatngle
     #     #want this to be an image overlaid over face
     #     # cv2.rectangle(frame, (x,y), (x+width, y+height), (255,255,0), 2)
-
-    #     #PNG----------------------
+    """
+    
+    """
+    # OLD CODE FOR USING PNG
     #     # # Resize the overlay image to match face dimensions
     #     # resized_overlay = cv2.resize(overlay_img, (width, height))
 
@@ -112,7 +117,7 @@ while True:
 
     #     # Overlay the image on the frame
     #     overlay_image(frame, resized_overlay, (x, y))
-    
+    """
 
     # Display the frame with the overlay
     cv2.imshow("Faces", frame)    
