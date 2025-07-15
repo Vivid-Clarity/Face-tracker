@@ -20,7 +20,7 @@ import pathlib
 # overlay_img = cv2.imread('overlay.jpg')  # Ensure the image is in JPG format
 
 # Function to overlay an image onto another image at a given position
-def overlay_image(img_path, overlay, position):
+def func_overlay_image(img_path, overlay, position):
     """
     Overlays an image onto another image at a specified position.
 
@@ -34,6 +34,7 @@ def overlay_image(img_path, overlay, position):
     """
 
     overlay_img = cv2.imread(img_path) 
+    
     x, y = position
     h, w = overlay.shape[:2]
 
@@ -91,8 +92,12 @@ def face_cascade(img_path):
         #Overlay the image if a face position is available
         if x is not None and y is not None and width is not None and height is not None:
             #Resize the overlay image to match the detected face size
-            resized_overlay = cv2.resize(img_path, (width, height))
-            overlay_image(frame, resized_overlay, (x, y))
+            overlay_img = cv2.imread(img_path)
+            if overlay_img is not None:
+                resized_overlay = cv2.resize(overlay_img, (width, height))
+                func_overlay_image(frame, resized_overlay, (x, y))
+            else:
+                print(f"Failed to load image from {img_path}")
 
         """
         OLD CODE FOR RECTANGLE
@@ -131,7 +136,3 @@ def face_cascade(img_path):
     # Release the webcam and close all OpenCV windows
     camera.release()
     cv2.destroyAllWindows()
-
-
-if __name__ == '__main__':
-    face_cascade()

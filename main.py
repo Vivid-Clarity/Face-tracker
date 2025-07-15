@@ -21,10 +21,13 @@ def init():
     title_label = customtkinter.CTkLabel(app, text="Face Detector", font=("Arial", 24))
     title_label.grid(row=0, column=0, pady=10)
 
+    #-------------------------------------------------------
     #face tracker frame
     face_tracker_frame = customtkinter.CTkFrame(app, border_width=5, border_color="black")
     face_tracker_frame.pack_propagate(False)    
     face_tracker_frame.grid(row=1, column=0, sticky="nsew")
+
+
 
 
     #-------------------------------------------------------
@@ -35,7 +38,7 @@ def init():
 
     #image frame grid
     image_frame.grid_columnconfigure(0, weight=1)  #image
-    image_frame.grid_columnconfigure(1, weight=3)  #upload button
+    image_frame.grid_columnconfigure(1, weight=3)  #buttons
     image_frame.grid_rowconfigure(0, weight=1)
 
     #Image label for displaying the uploaded image
@@ -45,9 +48,23 @@ def init():
     #creating an instance of imgUploader
     imgUploader = imageUploader(img_label, image_frame)
 
+    #-------------------------------------------------------
+    #button frame
+    button_frame = customtkinter.CTkLabel(image_frame, text="")
+    button_frame.grid(row=0, column=1, padx=5, pady=10, sticky="nse")
+
+    #button frame grid
+    button_frame.grid_rowconfigure(0, weight=1)  #upload button
+    button_frame.grid_rowconfigure(1, weight=1)  #face detection button
+    image_frame.grid_columnconfigure(0, weight=1)
+
     #Image upload button
-    upload_button = customtkinter.CTkButton(image_frame, text="Upload Image", command= imgUploader.upload)
-    upload_button.grid(row=0, column=1, padx=50, pady=10, sticky="e")
+    upload_button = customtkinter.CTkButton(button_frame, text="Upload Image", command= imgUploader.upload)
+    upload_button.grid(row=0, column=0, padx=50, pady=10, sticky="s")
+
+    #Face detection button
+    run_detection = customtkinter.CTkButton(button_frame, text="Run Face Detection", command=lambda: face_cascade(imgUploader.file_path))
+    run_detection.grid(row=1, column=0, padx=50, pady=10, sticky="n")
 
     print(imgUploader.file_path)  #for debugging
     
