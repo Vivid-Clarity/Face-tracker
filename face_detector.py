@@ -17,10 +17,10 @@ import pathlib
 """
 
 # Load the overlay image (JPG format, without alpha channel)
-overlay_img = cv2.imread('overlay.jpg')  # Ensure the image is in JPG format
+# overlay_img = cv2.imread('overlay.jpg')  # Ensure the image is in JPG format
 
 # Function to overlay an image onto another image at a given position
-def overlay_image(img, overlay, position):
+def overlay_image(img_path, overlay, position):
     """
     Overlays an image onto another image at a specified position.
 
@@ -32,17 +32,19 @@ def overlay_image(img, overlay, position):
     Returns:
     None
     """
+
+    overlay_img = cv2.imread(img_path) 
     x, y = position
     h, w = overlay.shape[:2]
 
     # Ensure the overlay dimensions fit within the frame boundaries
-    if y + h > img.shape[0] or x + w > img.shape[1]:
+    if y + h > overlay_img.shape[0] or x + w > overlay_img.shape[1]:
         return
 
     # Replace the image region with the overlay
-    img[y:y+h, x:x+w] = overlay
+    overlay_img[y:y+h, x:x+w] = overlay
 
-def face_cascade():
+def face_cascade(img_path):
     #Load the Haar Cascade for face detection
     cascade_path = pathlib.Path(cv2.__file__).parent.absolute() / "data/haarcascade_frontalface_default.xml"
     print(f"Haar Cascade path: {cascade_path}")
@@ -89,7 +91,7 @@ def face_cascade():
         #Overlay the image if a face position is available
         if x is not None and y is not None and width is not None and height is not None:
             #Resize the overlay image to match the detected face size
-            resized_overlay = cv2.resize(overlay_img, (width, height))
+            resized_overlay = cv2.resize(img_path, (width, height))
             overlay_image(frame, resized_overlay, (x, y))
 
         """
@@ -130,3 +132,6 @@ def face_cascade():
     camera.release()
     cv2.destroyAllWindows()
 
+
+if __name__ == '__main__':
+    face_cascade()
