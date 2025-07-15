@@ -1,29 +1,6 @@
-import tkinter
 import customtkinter
 from face_detector import face_cascade
-from PIL import Image
-
-def imgUploader(img_label):
-    fileTypes = [("Image files", "*.jpg *.jpeg *.png")]
-    file_path = customtkinter.filedialog.askopenfilename(title="Select an Image", filetypes=fileTypes)
-
-    #if a file was selected, process it
-    if file_path:
-        print(f"Selected file: {file_path}")
-        img = Image.open(file_path)
-        
-        # Resize the image to fit within a maximum size
-        max_width, max_height = 600, 600
-        scale = min(max_width / img.width, max_height / img.height)
-        display_size = (int(img.width * scale), int(img.height * scale))
-
-        pic = customtkinter.CTkImage(img, size=display_size)      
-
-        img_label.configure(image=pic)
-        img_label.image = pic
-    else:
-        print("No file selected.")
-
+from imageUploader import imageUploader
 
 def init():
     #System settings
@@ -33,20 +10,47 @@ def init():
     app = customtkinter.CTk()
     app.title("Face Detector")
     app.geometry("800x600")
-    
-    title_label = customtkinter.CTkLabel(app, text="Face Detector", font=("Arial", 24))
-    title_label.pack(pady=20)
 
-    #Image lavel for displaying the uploaded image
-    img_label = customtkinter.CTkLabel(app, text="")
-    img_label.pack(pady=10)
+    # Configure grid layout
+    app.grid_rowconfigure(0, weight=0)  # title 
+    app.grid_rowconfigure(1, weight=3)  # top 60%
+    app.grid_rowconfigure(2, weight=2)  # bottom 40%
+    app.grid_columnconfigure(0, weight=1)
+
+    #Title label
+    title_label = customtkinter.CTkLabel(app, text="Face Detector", font=("Arial", 24))
+    title_label.grid(row=0, column=0, pady=10)
+
+    #face tracker frame
+    face_tracker_frame = customtkinter.CTkFrame(app, border_width=5, border_color="black")
+    face_tracker_frame.pack_propagate(False)    
+    face_tracker_frame.grid(row=1, column=0, sticky="nsew")
+
+
+    #-------------------------------------------------------
+    #image frame
+    image_frame = customtkinter.CTkFrame(app,border_width=5, border_color="black")
+    image_frame.pack_propagate(False)
+    image_frame.grid(row=2, column=0, sticky="nsew")
+
+    #image frame grid
+    image_frame.grid_columnconfigure(0, weight=1)  #image
+    image_frame.grid_columnconfigure(1, weight=3)  #upload button
+    image_frame.grid_rowconfigure(0, weight=1)
+
+    #Image label for displaying the uploaded image
+    img_label = customtkinter.CTkLabel(image_frame, text="")
+    img_label.grid(row=0, column=0, padx=5, pady=10, sticky="nse")
+
+    #creating an instance of imgUploader
+    imgUploader = imageUploader(img_label, image_frame)
 
     #Image upload button
-    upload_button = customtkinter.CTkButton(app, text="Upload Image", command= lambda:imgUploader(img_label))
-    upload_button.pack(pady=10)
+    upload_button = customtkinter.CTkButton(image_frame, text="Upload Image", command= imgUploader.upload)
+    upload_button.grid(row=0, column=1, padx=50, pady=10, sticky="e")
 
-
-
+    print(imgUploader.file_path)  #for debugging
+    
     return app
 
 
