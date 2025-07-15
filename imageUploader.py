@@ -6,16 +6,16 @@ class imageUploader:
     def __init__(self, img_label, image_frame):
         self.img_label = img_label
         self.image_frame = image_frame
-        self.file_path = ""
+        self.image_path = ""
     
     def upload(self):
         fileTypes = [("Image files", "*.jpg *.jpeg *.png")]
-        self.file_path = customtkinter.filedialog.askopenfilename(title="Select an Image", filetypes=fileTypes)
+        self.image_path = customtkinter.filedialog.askopenfilename(title="Select an Image", filetypes=fileTypes)
 
         #if a file was selected, process it
-        if self.file_path:
-            print(f"Selected file: {self.file_path}")
-            img = Image.open(self.file_path)
+        if self.image_path:
+            print(f"Selected image path: {self.image_path}")
+            img = Image.open(self.image_path)
             
             #Get image_frame dimensions
             self.image_frame.update_idletasks()
@@ -36,3 +36,4 @@ class imageUploader:
             self.img_label.image = pic
         else:
             print("No file selected.")
+

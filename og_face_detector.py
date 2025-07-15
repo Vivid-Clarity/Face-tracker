@@ -20,7 +20,7 @@ import pathlib
 # overlay_img = cv2.imread('overlay.jpg')  # Ensure the image is in JPG format
 
 # Function to overlay an image onto another image at a given position
-def func_overlay_image(img_path, overlay, position):
+def func_overlay_image(frame, overlay, position):
     """
     Overlays an image onto another image at a specified position.
 
@@ -31,19 +31,16 @@ def func_overlay_image(img_path, overlay, position):
 
     Returns:
     None
-    """
-
-    overlay_img = cv2.imread(img_path) 
-    
+    """    
     x, y = position
     h, w = overlay.shape[:2]
 
     # Ensure the overlay dimensions fit within the frame boundaries
-    if y + h > overlay_img.shape[0] or x + w > overlay_img.shape[1]:
+    if y + h > frame.shape[0] or x + w > frame.shape[1]:
         return
 
     # Replace the image region with the overlay
-    overlay_img[y:y+h, x:x+w] = overlay
+    frame[y:y+h, x:x+w] = overlay
 
 def face_cascade(img_path):
     #Load the Haar Cascade for face detection
@@ -136,3 +133,5 @@ def face_cascade(img_path):
     # Release the webcam and close all OpenCV windows
     camera.release()
     cv2.destroyAllWindows()
+
+face_cascade("overlay.jpg")  # Replace with your overlay image path

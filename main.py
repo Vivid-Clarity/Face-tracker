@@ -1,6 +1,6 @@
 import customtkinter
-from face_detector import face_cascade
-from imageUploader import imageUploader
+import faceDetector
+import imageUploader
 
 def init():
     #System settings
@@ -26,8 +26,6 @@ def init():
     face_tracker_frame = customtkinter.CTkFrame(app, border_width=5, border_color="black")
     face_tracker_frame.pack_propagate(False)    
     face_tracker_frame.grid(row=1, column=0, sticky="nsew")
-
-
 
 
     #-------------------------------------------------------
@@ -62,11 +60,11 @@ def init():
     upload_button = customtkinter.CTkButton(button_frame, text="Upload Image", command= imgUploader.upload)
     upload_button.grid(row=0, column=0, padx=50, pady=10, sticky="s")
 
-    #Face detection button
-    run_detection = customtkinter.CTkButton(button_frame, text="Run Face Detection", command=lambda: face_cascade(imgUploader.file_path))
-    run_detection.grid(row=1, column=0, padx=50, pady=10, sticky="n")
+    faceDetector = faceDetector(imageUploader.image_path)
 
-    print(imgUploader.file_path)  #for debugging
+    #Face detection button
+    run_detection = customtkinter.CTkButton(button_frame, text="Run Face Detection", command=lambda: faceDetector.detect_face)
+    run_detection.grid(row=1, column=0, padx=50, pady=10, sticky="n")
     
     return app
 
