@@ -8,6 +8,9 @@ class imageUploader:
         self.image_frame = image_frame
         self.image_path = ""
     
+    def get_image_path(self):
+        return self.image_path
+
     def upload(self):
         fileTypes = [("Image files", "*.jpg *.jpeg *.png")]
         self.image_path = customtkinter.filedialog.askopenfilename(title="Select an Image", filetypes=fileTypes)

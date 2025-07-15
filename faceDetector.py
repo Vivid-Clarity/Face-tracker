@@ -16,8 +16,12 @@ class faceDetector:
         last_face_position = None
 
         while True:
+            # keyCode = cv2.waitKey(50)
             #Capture a frame from the webcam
             _, frame = self.camera.read()
+
+            # if cv2.getWindowProperty("Faces", cv2.WND_PROP_VISIBLE) <1:
+            #     break
             
             #Convert the frame to grayscale for face detection
             grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -49,11 +53,21 @@ class faceDetector:
                 overlay_img = cv2.imread(self.img_path)
                 if overlay_img is not None:
                     resized_overlay = cv2.resize(overlay_img, (width, height))
-                    self.func_overlay_image(frame, resized_overlay, (x, y))
+                    self.image_overlay(frame, resized_overlay, (x, y))
                 else:
                     print(f"Failed to load image from {self.img_path}")
-                
-    def func_overlay_image(self, frame, overlay, position):
+
+            # Display the frame with the overlay
+            cv2.imshow("Faces", frame)    
+            # Exit the loop if the 'q' key is pressed
+            if cv2.waitKey(1) == ord("q"):
+                break
+
+        # Release the webcam and close all OpenCV windows
+        self.camera.release()
+        cv2.destroyAllWindows()    
+        
+    def image_overlay(self, frame, overlay, position):
         """
         Overlays an image onto another image at a specified position.
 

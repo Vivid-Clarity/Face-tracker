@@ -1,6 +1,6 @@
 import customtkinter
-import faceDetector
-import imageUploader
+from faceDetector import faceDetector
+from imageUploader import imageUploader
 
 def init():
     #System settings
@@ -44,7 +44,7 @@ def init():
     img_label.grid(row=0, column=0, padx=5, pady=10, sticky="nse")
 
     #creating an instance of imgUploader
-    imgUploader = imageUploader(img_label, image_frame)
+    image_uploader = imageUploader(img_label, image_frame)
 
     #-------------------------------------------------------
     #button frame
@@ -57,17 +57,24 @@ def init():
     image_frame.grid_columnconfigure(0, weight=1)
 
     #Image upload button
-    upload_button = customtkinter.CTkButton(button_frame, text="Upload Image", command= imgUploader.upload)
+    upload_button = customtkinter.CTkButton(button_frame, text="Upload Image", command= image_uploader.upload)
     upload_button.grid(row=0, column=0, padx=50, pady=10, sticky="s")
 
-    faceDetector = faceDetector(imageUploader.image_path)
-
+    
     #Face detection button
-    run_detection = customtkinter.CTkButton(button_frame, text="Run Face Detection", command=lambda: faceDetector.detect_face)
+    run_detection = customtkinter.CTkButton(button_frame, text="Run Face Detection", command=lambda:start_face_detection(image_uploader))
     run_detection.grid(row=1, column=0, padx=50, pady=10, sticky="n")
     
     return app
 
+def start_face_detection(image_uploader):
+    img_path = image_uploader.get_image_path()
+    if img_path:
+        face_detector = faceDetector(img_path)
+        face_detector.detect_face()
+
+    else:
+        print("No image uploaded yet.")
 
 if __name__ == '__main__':
     app = init()
