@@ -16,12 +16,11 @@ class faceDetector:
         last_face_position = None
 
         while True:
-            # keyCode = cv2.waitKey(50)
             #Capture a frame from the webcam
             _, frame = self.camera.read()
 
-            # if cv2.getWindowProperty("Faces", cv2.WND_PROP_VISIBLE) <1:
-            #     break
+            if cv2.getWindowProperty("Faces", cv2.WND_PROP_VISIBLE) <1:
+                break
             
             #Convert the frame to grayscale for face detection
             grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
