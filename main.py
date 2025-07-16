@@ -1,4 +1,5 @@
 import customtkinter
+import CTkMessagebox
 from faceDetector import faceDetector
 from imageUploader import imageUploader
 
@@ -26,7 +27,6 @@ def init():
     face_tracker_frame = customtkinter.CTkFrame(app, border_width=5, border_color="black")
     face_tracker_frame.pack_propagate(False)    
     face_tracker_frame.grid(row=1, column=0, sticky="nsew")
-
 
     #-------------------------------------------------------
     #image frame
@@ -74,7 +74,9 @@ def start_face_detection(image_uploader):
         face_detector.detect_face()
 
     else:
-        print("No image uploaded yet.")
+        warning = CTkMessagebox.CTkMessagebox(title="Warning", message="Please upload an image first.", icon="warning")
+        warning.show()
+
 
 if __name__ == '__main__':
     app = init()
